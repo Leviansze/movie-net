@@ -1,5 +1,5 @@
 // Zeldvorik API Service
-const API_BASE_URL = 'https://zeldvorik.ru/apiv2/';
+const API_BASE_URL = 'https://zeldvorik.ru/apiv2/api.php';
 
 export interface MovieItem {
   id: string;
