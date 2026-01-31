@@ -11,7 +11,7 @@ export default function WatchPage() {
   const params = useParams();
   const pathArray = params.path as string[];
   const detailPath = pathArray.join('/');
-  
+
   const [detail, setDetail] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeason, setSelectedSeason] = useState(0);
@@ -24,7 +24,7 @@ export default function WatchPage() {
       try {
         const data = await getDetail(detailPath);
         setDetail(data);
-        
+
         // Auto select first episode if TV series
         if (data.seasons && data.seasons.length > 0) {
           setSelectedSeason(0);
@@ -44,12 +44,12 @@ export default function WatchPage() {
 
   const getCurrentPlayerUrl = () => {
     if (!detail) return null;
-    
+
     if (detail.type === 'tv' && detail.seasons && detail.seasons[selectedSeason]) {
       const episode = detail.seasons[selectedSeason].episodes?.[selectedEpisode];
       return episode?.playerUrl || null;
     }
-    
+
     return detail.playerUrl || null;
   };
 
@@ -107,7 +107,7 @@ export default function WatchPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-netflix-black via-transparent to-transparent" />
-          
+
           {/* Play Button Overlay */}
           {playerUrl && (
             <button
@@ -145,9 +145,8 @@ export default function WatchPage() {
           <div className="flex-1 space-y-6">
             <div>
               <div className="flex flex-wrap items-center gap-3 mb-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  detail.type === 'movie' ? 'bg-blue-500' : 'bg-purple-500'
-                } text-white`}>
+                <span className={`px-3 py-1 rounded-full text-xs font-bold ${detail.type === 'movie' ? 'bg-blue-500' : 'bg-purple-500'
+                  } text-white`}>
                   {detail.type === 'movie' ? 'MOVIE' : 'TV SERIES'}
                 </span>
                 <span className="px-3 py-1 rounded-full text-xs font-bold bg-netflix-red text-white">
@@ -161,7 +160,7 @@ export default function WatchPage() {
               </div>
 
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                {detail.title}
+                {detail.title || "Untitled Content"}
               </h1>
             </div>
 
@@ -175,13 +174,13 @@ export default function WatchPage() {
                   {formatRating(detail.rating)}
                 </span>
               </div>
-              {detail.duration && (
+              {detail.duration && detail.duration !== "null" && (
                 <>
                   <span className="text-gray-400">•</span>
                   <span className="text-gray-300">{detail.duration}</span>
                 </>
               )}
-              {detail.country && (
+              {detail.country && detail.country !== "null" && (
                 <>
                   <span className="text-gray-400">•</span>
                   <span className="text-gray-300">{detail.country}</span>
@@ -190,7 +189,7 @@ export default function WatchPage() {
             </div>
 
             {/* Genre */}
-            {detail.genre && (
+            {detail.genre && detail.genre !== "null" && (
               <div className="flex flex-wrap gap-2">
                 {detail.genre.split(',').map((genre, index) => (
                   <span
@@ -219,30 +218,29 @@ export default function WatchPage() {
             )}
 
             {/* Description */}
-            {detail.description && (
-              <div className="space-y-3">
-                <h2 className="text-2xl font-bold text-white">Synopsis</h2>
-                <p className="text-gray-300 text-base leading-relaxed">
-                  {detail.description}
-                </p>
-              </div>
-            )}
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-white">Synopsis</h2>
+              <p className="text-gray-300 text-base leading-relaxed">
+                {detail.description || "No synopsis available for this content."}
+              </p>
+            </div>
 
             {/* Cast & Director */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {detail.director && (
+              {detail.director && detail.director !== "null" && (
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">Director</h3>
                   <p className="text-gray-300">{detail.director}</p>
                 </div>
               )}
-              {detail.cast && detail.cast.length > 0 && (
+              {detail.cast && detail.cast.length > 0 && detail.cast[0] !== "null" && (
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">Cast</h3>
                   <p className="text-gray-300">{detail.cast.slice(0, 5).join(', ')}</p>
                 </div>
               )}
             </div>
+
           </div>
         </div>
 
@@ -251,7 +249,7 @@ export default function WatchPage() {
           <div className="mt-12 space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold text-white">Episodes</h2>
-              
+
               {/* Season Selector */}
               {detail.seasons.length > 1 && (
                 <select
