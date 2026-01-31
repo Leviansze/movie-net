@@ -57,18 +57,20 @@ export default function WatchPage() {
     return <DetailSkeleton />;
   }
 
-  if (!detail) {
+  if (!detail || !detail.title || !detail.id) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-white">Content not found</h1>
-          <a href="/" className="text-netflix-red hover:underline">
+          <p className="text-gray-400">The requested movie or series could not be retrieved.</p>
+          <a href="/" className="text-netflix-red hover:underline block mt-4">
             Go back to home
           </a>
         </div>
       </div>
     );
   }
+
 
   const playerUrl = getCurrentPlayerUrl();
 

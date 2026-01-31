@@ -76,8 +76,11 @@ export const formatCategoryName = (category?: string | null): string => {
 export const getValidImageUrl = (
   url?: string | null
 ): string => {
+  // Simple gray box data URI for fallback
+  const fallback = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='900' viewBox='0 0 600 900'%3E%3Crect width='600' height='900' fill='%231a1a1a'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='40' fill='%23ffffff'%3ENo Poster%3C/text%3E%3C/svg%3E";
+
   if (!url || url === "" || url === "null" || url === "undefined") {
-    return "https://placehold.co/600x900/1a1a1a/ffffff?text=No+Poster";
+    return fallback;
   }
 
   // If it's already a full URL, return it
@@ -87,10 +90,11 @@ export const getValidImageUrl = (
   if (url.startsWith("/")) return url;
 
   // Otherwise, default to the placeholder if it looks like invalid data
-  if (url.length < 5) return "https://placehold.co/600x900/1a1a1a/ffffff?text=No+Poster";
+  if (url.length < 5) return fallback;
 
   return url;
 };
+
 
 // Generate SEO title
 export const generateSEOTitle = (

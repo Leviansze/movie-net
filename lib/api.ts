@@ -49,18 +49,26 @@ const fetchApi = async (endpoint: string): Promise<any> => {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       next: { revalidate: 3600 }, // Cache for 1 hour
     });
-    
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      console.error(`API HTTP Error: ${response.status} ${response.statusText}`);
+      return null;
     }
-    
+
     const data = await response.json();
+
+    // Check if the API returned an error or success=false
+    if (data && data.success === false) {
+      return null;
+    }
+
     return data;
   } catch (error) {
     console.error('API Error:', error);
-    throw error;
+    return null;
   }
 };
+
 
 // Get Trending Content
 export const getTrending = async (page: number = 1): Promise<ApiResponse> => {
