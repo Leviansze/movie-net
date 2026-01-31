@@ -1,7 +1,7 @@
-import { 
-  getTrending, 
-  getIndonesianMovies, 
-  getKDrama, 
+import {
+  getTrending,
+  getIndonesianMovies,
+  getKDrama,
   getAnime,
   getShortTV,
   getIndonesianDrama
@@ -9,6 +9,8 @@ import {
 import HeroBanner from '@/components/HeroBanner';
 import MovieGrid from '@/components/MovieGrid';
 import CategoryFilter from '@/components/CategoryFilter';
+
+import ErrorState from '@/components/ErrorState';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -48,10 +50,10 @@ export default async function Home() {
           {/* Trending Now */}
           {trending.length > 0 && (
             <section>
-              <MovieGrid 
-                items={trending.slice(0, 12)} 
-                title="🔥 Trending Now" 
-                priority 
+              <MovieGrid
+                items={trending.slice(0, 12)}
+                title="🔥 Trending Now"
+                priority
               />
             </section>
           )}
@@ -59,9 +61,9 @@ export default async function Home() {
           {/* Indonesian Movies */}
           {indonesianMoviesData.items && indonesianMoviesData.items.length > 0 && (
             <section>
-              <MovieGrid 
-                items={indonesianMoviesData.items.slice(0, 12)} 
-                title="🇮🇩 Indonesian Movies" 
+              <MovieGrid
+                items={indonesianMoviesData.items.slice(0, 12)}
+                title="🇮🇩 Indonesian Movies"
               />
             </section>
           )}
@@ -69,9 +71,9 @@ export default async function Home() {
           {/* K-Drama */}
           {kdramaData.items && kdramaData.items.length > 0 && (
             <section>
-              <MovieGrid 
-                items={kdramaData.items.slice(0, 12)} 
-                title="🇰🇷 K-Drama" 
+              <MovieGrid
+                items={kdramaData.items.slice(0, 12)}
+                title="🇰🇷 K-Drama"
               />
             </section>
           )}
@@ -79,9 +81,9 @@ export default async function Home() {
           {/* Indonesian Drama */}
           {dramaData.items && dramaData.items.length > 0 && (
             <section>
-              <MovieGrid 
-                items={dramaData.items.slice(0, 12)} 
-                title="📺 Indonesian Drama" 
+              <MovieGrid
+                items={dramaData.items.slice(0, 12)}
+                title="📺 Indonesian Drama"
               />
             </section>
           )}
@@ -89,9 +91,9 @@ export default async function Home() {
           {/* Anime */}
           {animeData.items && animeData.items.length > 0 && (
             <section>
-              <MovieGrid 
-                items={animeData.items.slice(0, 12)} 
-                title="🎌 Anime" 
+              <MovieGrid
+                items={animeData.items.slice(0, 12)}
+                title="🎌 Anime"
               />
             </section>
           )}
@@ -99,9 +101,9 @@ export default async function Home() {
           {/* Short TV */}
           {shortTVData.items && shortTVData.items.length > 0 && (
             <section>
-              <MovieGrid 
-                items={shortTVData.items.slice(0, 12)} 
-                title="⏱️ Short TV" 
+              <MovieGrid
+                items={shortTVData.items.slice(0, 12)}
+                title="⏱️ Short TV"
               />
             </section>
           )}
@@ -110,21 +112,7 @@ export default async function Home() {
     );
   } catch (error) {
     console.error('Error fetching data:', error);
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center space-y-4">
-          <h1 className="text-3xl font-bold text-white">Oops! Something went wrong</h1>
-          <p className="text-gray-400">
-            Unable to load content. Please try refreshing the page.
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-netflix-red text-white px-6 py-3 rounded-md font-semibold hover:bg-opacity-80 transition-all"
-          >
-            Refresh Page
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorState />;
   }
 }
+
