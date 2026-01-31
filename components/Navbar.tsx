@@ -80,7 +80,16 @@ export default function Navbar() {
           </div>
 
           {/* Search & Mobile Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Report Link */}
+            <Link
+              href="/report"
+              className="hidden sm:inline text-xs sm:text-sm font-medium text-gray-300 hover:text-white px-2 sm:px-3 py-2 transition-colors"
+              title="Report a bug"
+            >
+              Report
+            </Link>
+
             {/* Search */}
             <div className="relative">
               <button

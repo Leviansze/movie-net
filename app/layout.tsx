@@ -1,11 +1,10 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
+import FloatingReportButton from '@/components/FloatingReportButton';
 
 const inter = Inter({ subsets: ['latin'] });
-
-import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "StreamID",
@@ -28,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-netflix-black text-white antialiased`}>
         <Navbar />
+        <FloatingReportButton />
         <main className="min-h-screen">
           {children}
         </main>
